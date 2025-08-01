@@ -1,10 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Shield, Users, UserCheck, Stethoscope, Calendar, TrendingUp, Settings, Plus, Bell, Activity } from "lucide-react";
+import { Shield, Users, UserCheck, Stethoscope, Calendar, TrendingUp, Settings, Plus, Bell, Activity, LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import Layout from "@/components/Layout";
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
+  
+  const handleLogout = () => {
+    navigate("/login");
+  };
+
   // Mock data
   const admin = {
     name: "Admin User",
@@ -105,6 +112,10 @@ const AdminDashboard = () => {
                 <Button variant="warning" className="flex items-center gap-2">
                   <Plus className="h-4 w-4" />
                   Add User
+                </Button>
+                <Button variant="outline" onClick={handleLogout} className="flex items-center gap-2">
+                  <LogOut className="h-4 w-4" />
+                  Logout
                 </Button>
               </div>
             </div>

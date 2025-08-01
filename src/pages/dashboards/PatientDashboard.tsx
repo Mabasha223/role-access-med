@@ -1,10 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, User, Phone, MapPin, Heart, Plus, Bell } from "lucide-react";
+import { Calendar, Clock, User, Phone, MapPin, Heart, Plus, Bell, LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import Layout from "@/components/Layout";
 
 const PatientDashboard = () => {
+  const navigate = useNavigate();
+  
+  const handleLogout = () => {
+    navigate("/login");
+  };
+
   // Mock data
   const patient = {
     name: "John Doe",
@@ -75,6 +82,10 @@ const PatientDashboard = () => {
                 <Button className="flex items-center gap-2">
                   <Plus className="h-4 w-4" />
                   Book Appointment
+                </Button>
+                <Button variant="outline" onClick={handleLogout} className="flex items-center gap-2">
+                  <LogOut className="h-4 w-4" />
+                  Logout
                 </Button>
               </div>
             </div>
