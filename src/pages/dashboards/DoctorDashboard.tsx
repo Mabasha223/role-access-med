@@ -4,12 +4,29 @@ import { Badge } from "@/components/ui/badge";
 import { Stethoscope, Calendar, Clock, User, Users, Settings, Plus, Bell, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Layout from "@/components/Layout";
+import ScheduleModal from "@/components/ScheduleModal";
+import PatientRecordsModal from "@/components/PatientRecordsModal";
+import SettingsModal from "@/components/SettingsModal";
+import NotificationsModal from "@/components/NotificationsModal";
+import PatientDetailsModal from "@/components/PatientDetailsModal";
+import { useState } from "react";
 
 const DoctorDashboard = () => {
   const navigate = useNavigate();
+  const [isScheduleOpen, setIsScheduleOpen] = useState(false);
+  const [isPatientRecordsOpen, setIsPatientRecordsOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [isPatientDetailsOpen, setIsPatientDetailsOpen] = useState(false);
+  const [selectedPatient, setSelectedPatient] = useState<any>(null);
   
   const handleLogout = () => {
     navigate("/login");
+  };
+
+  const handleViewDetails = (appointment: any) => {
+    setSelectedPatient(appointment);
+    setIsPatientDetailsOpen(true);
   };
 
   // Mock data
@@ -75,10 +92,10 @@ const DoctorDashboard = () => {
                 <p className="text-muted-foreground">Manage your schedule and patient appointments</p>
               </div>
               <div className="flex items-center gap-3">
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" onClick={() => setIsNotificationsOpen(true)}>
                   <Bell className="h-4 w-4" />
                 </Button>
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" onClick={() => setIsSettingsOpen(true)}>
                   <Settings className="h-4 w-4" />
                 </Button>
                 <Button variant="medical" className="flex items-center gap-2">
@@ -200,15 +217,15 @@ const DoctorDashboard = () => {
                   <CardTitle>Quick Actions</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  <Button variant="outline" className="w-full justify-start">
+                  <Button variant="outline" className="w-full justify-start" onClick={() => setIsScheduleOpen(true)}>
                     <Calendar className="h-4 w-4 mr-2" />
                     View Schedule
                   </Button>
-                  <Button variant="outline" className="w-full justify-start">
+                  <Button variant="outline" className="w-full justify-start" onClick={() => setIsPatientRecordsOpen(true)}>
                     <Users className="h-4 w-4 mr-2" />
                     Patient Records
                   </Button>
-                  <Button variant="outline" className="w-full justify-start">
+                  <Button variant="outline" className="w-full justify-start" onClick={() => setIsSettingsOpen(true)}>
                     <Settings className="h-4 w-4 mr-2" />
                     Settings
                   </Button>
@@ -232,7 +249,7 @@ const DoctorDashboard = () => {
                         })}
                       </CardDescription>
                     </div>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" onClick={() => setIsScheduleOpen(true)}>
                       View Calendar
                     </Button>
                   </div>
@@ -258,7 +275,7 @@ const DoctorDashboard = () => {
                             <Badge className={getStatusColor(appointment.status)}>
                               {appointment.status}
                             </Badge>
-                            <Button variant="outline" size="sm">
+                            <Button variant="outline" size="sm" onClick={() => handleViewDetails(appointment)}>
                               View Details
                             </Button>
                           </div>
@@ -309,6 +326,17 @@ const DoctorDashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      <ScheduleModal isOpen={isScheduleOpen} onClose={() => setIsScheduleOpen(false)} />
+      <PatientRecordsModal isOpen={isPatientRecordsOpen} onClose={() => setIsPatientRecordsOpen(false)} />
+      <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+      <NotificationsModal isOpen={isNotificationsOpen} onClose={() => setIsNotificationsOpen(false)} />
+      <PatientDetailsModal 
+        isOpen={isPatientDetailsOpen} 
+        onClose={() => setIsPatientDetailsOpen(false)}
+        patient={selectedPatient}
+      />
     </Layout>
   );
 };
