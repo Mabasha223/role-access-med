@@ -4,6 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, User, Phone, MapPin, Heart, Plus, Bell, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Layout from "@/components/Layout";
+import BookAppointmentModal from "@/components/BookAppointmentModal";
+import QueueStatus from "@/components/QueueStatus";
 
 const PatientDashboard = () => {
   const navigate = useNavigate();
@@ -79,10 +81,12 @@ const PatientDashboard = () => {
                 <Button variant="outline" size="icon">
                   <Bell className="h-4 w-4" />
                 </Button>
-                <Button className="flex items-center gap-2">
-                  <Plus className="h-4 w-4" />
-                  Book Appointment
-                </Button>
+                <BookAppointmentModal>
+                  <Button className="flex items-center gap-2">
+                    <Plus className="h-4 w-4" />
+                    Book Appointment
+                  </Button>
+                </BookAppointmentModal>
                 <Button variant="outline" onClick={handleLogout} className="flex items-center gap-2">
                   <LogOut className="h-4 w-4" />
                   Logout
@@ -148,6 +152,9 @@ const PatientDashboard = () => {
                   </div>
                 </CardContent>
               </Card>
+
+              {/* Queue Status */}
+              <QueueStatus />
             </div>
 
             {/* Appointments */}
